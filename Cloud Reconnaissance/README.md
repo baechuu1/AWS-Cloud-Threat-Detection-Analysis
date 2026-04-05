@@ -11,7 +11,6 @@
 ---
 
 ## 📌 Overview
-This phase simulates an attacker using valid IAM access keys from an external system (Kali Linux) to enumerate AWS resources via API calls.
 
 The objective is to demonstrate how attackers perform cloud reconnaissance and how this activity is captured and analyzed using AWS CloudTrail.
 
