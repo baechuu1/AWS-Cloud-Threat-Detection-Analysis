@@ -169,7 +169,7 @@ $ aws sts get-caller-identity
   "eventName": "GetCallerIdentity",
   "eventSource": "sts.amazonaws.com",
   "userName": "cloud-attacker",
-  "sourceIPAddress": "203.0.113.45",
+  "sourceIPAddress": "External IP",
   "awsRegion": "us-east-1",
   "eventTime": "2026-04-05T20:25:49Z"
 }
