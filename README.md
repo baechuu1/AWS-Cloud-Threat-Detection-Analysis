@@ -55,7 +55,7 @@ aws-cloud-security-lab/
 │ ├── persistence/
 │ ├── s3-exposure/
 │
-├── screenshots/
+|
 └── README.md
 ```
 
