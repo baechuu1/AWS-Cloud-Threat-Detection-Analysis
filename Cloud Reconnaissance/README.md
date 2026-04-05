@@ -54,8 +54,62 @@ Attacker performing API enumeration.
 
 ## ☁️ CloudTrail Event History
 
-API activity generated from attacker actions.
+### API activity generated from attacker actions.
+```bash
+(kali㉿kali)-[~]
+$ aws iam list-users
 
+{
+  "Users": [
+    {
+      "Path": "/",
+      "UserName": "admin-user",
+      "UserId": "AIDA********LAB",
+      "Arn": "arn:aws:iam::123456789:user/admin-user",
+      "CreateDate": "2026-04-05T19:49:49+00:00"
+    },
+    {
+      "Path": "/",
+      "UserName": "cloud-attacker",
+      "UserId": "AIDA********LAB",
+      "Arn": "arn:aws:iam::123456789:user/cloud-attacker",
+      "CreateDate": "2026-04-05T19:59:18+00:00"
+    }
+  ]
+}
+```
+<br>
+![IAM Role Enumeration](screenshots/list-user.log.png)
+<br>
+## 📄 CloudTrail JSON (Successful API Call)
+```json
+{
+    "eventVersion": "1.11",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "AIDA********LAB",
+        "arn": "arn:aws:iam::123456789:user/cloud-attacker",
+        "accountId": "123456789",
+        "accessKeyId": "Secret",
+        "userName": "cloud-attacker"
+    },
+    "eventTime": "2026-04-05T20:25:57Z",
+    "eventSource": "iam.amazonaws.com",
+    "eventName": "ListUsers",
+    "awsRegion": "us-east-1",
+    "sourceIPAddress": "External-IP",
+```
+}
+### 🔹 Analysis
+The attacker used ListUsers to enumerate IAM identities within the AWS account.
+This technique helps identify potential targets for privilege escalation or lateral movement, such as users with elevated permissions.
+
+![IAM Role Enumeration](screenshots/list-role-log.png)
+<br>
+![IAM Role Enumeration](screenshots/list-buckets-log.png)
+<br>
+![IAM Role Enumeration](screenshots/caller-identity-log.png)
+<br>
 ## 📄 CloudTrail JSON (Successful API Call)
 
 ## Example of successful enumeration.
