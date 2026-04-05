@@ -202,8 +202,5 @@ The attacker attempted to list S3 buckets to discover accessible storage resourc
 - Alert on repeated AccessDenied events
 - Rotate and secure access keys
 - Implement centralized logging and SIEM monitoring
-## 📌 Summary
 
-This phase demonstrates how attackers use valid credentials to perform cloud reconnaissance and how this behavior can be detected through API activity monitoring.
 
-<p align="center">🔍 Foundation of cloud attack lifecycle</p> ```
