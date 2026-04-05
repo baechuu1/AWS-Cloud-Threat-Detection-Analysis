@@ -46,9 +46,8 @@ Each attack scenario follows a structured workflow:
 
 ## 📂 Project Structure
 
-
+```
 aws-cloud-security-lab/
-
 │
 ├── phases/
 │ ├── initial-access-recon/
@@ -56,11 +55,9 @@ aws-cloud-security-lab/
 │ ├── persistence/
 │ ├── s3-exposure/
 │
-├── detections/
-├── mappings/
 ├── screenshots/
 └── README.md
-
+```
 
 ---
 
@@ -82,8 +79,7 @@ Build a practical understanding of how **cloud attacks are executed and detected
 ---
 
 ## 🚀 Roadmap
-
-- 🔑 Credential Compromise Simulation  
+ 
 - 🔍 Cloud Reconnaissance (AWS CLI Activity)  
 - 🔺 IAM Privilege Escalation  
 - 🔁 Persistence via IAM Abuse  
