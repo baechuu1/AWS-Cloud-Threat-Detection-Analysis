@@ -38,21 +38,48 @@ Each event contains:
 - Error codes (if applicable)
 ## 🔍 Detection & Analysis
 ### Key Observations
-- Successful S3 bucket enumeration
-- IAM enumeration attempts
-- Multiple AccessDenied responses
+- Unsuccessful S3 bucket enumeration
+- IAM enumeration
+- AccessDenied responses
 - API activity originating from external system
-## 🚨 Detection Opportunities
-- API activity from unusual IP addresses
-- Enumeration behavior across AWS services
-- Repeated AccessDenied events
-- Use of access keys instead of console login
-📸 Evidence
+
 ##🖥️ AWS CLI Activity (Kali)
 
 Attacker performing API enumeration.
+## ⏱️ Attack Timeline
+
+| Step | Action | Purpose |
+|------|--------|--------|
+| 1 | `GetCallerIdentity` | Validate credentials and confirm account access |
+| 2 | `ListUsers` | Enumerate IAM identities |
+| 3 | `ListRoles` | Identify privilege escalation opportunities |
+| 4 | `ListBuckets` | Attempt resource enumeration (AccessDenied) |
 
 ## ☁️ CloudTrail Event History
+### Identity Verification
+```bash
+(kali㉿kali)-[~]
+$ aws sts get-caller-identity
+{
+  "UserId": "AIDA********LAB",
+  "Account": "123456789",
+  "Arn": "arn:aws:iam::123456789:user/cloud-attacker"
+}
+```
+## 📄 CloudTrail (Successful API Call)
+![IAM Role Enumeration](screenshots/caller-identity-log.png)
+```json
+{
+  "eventName": "GetCallerIdentity",
+  "eventSource": "sts.amazonaws.com",
+  "userName": "cloud-attacker",
+  "sourceIPAddress": "External IP",
+  "awsRegion": "us-east-1",
+  "eventTime": "2026-04-05T20:25:49Z"
+}
+```
+### 🔹 Analysis
+The attacker used GetCallerIdentity to confirm that the credentials were valid and to determine the AWS account context. This step is commonly performed immediately after gaining access to verify authentication and understand the scope of access.
 
 ### IAM List Users
 ```bash
@@ -146,41 +173,30 @@ s3:ListAllMyBuckets action
   "sourceIPAddress": "External IP",
   "awsRegion": "us-east-1",
   "eventTime": "2026-04-05T20:30:54Z",
-  "errorCode": "AccessDenied"
+  "errorCode": "AccessDenied",
   "errorMessage": "User: arn:aws:iam::123456789:user/cloud-attacker is not authorized to perform: s3:ListAllMyBuckets because no identity-based policy allows the s3:ListAllMyBuckets action",
 }
 ```
 ### 🔹 Analysis
 The attacker attempted to list S3 buckets to discover accessible storage resources that may contain sensitive data. The request failed due to insufficient permissions, indicating proper access controls were in place for this action.
-### Identity Verification
-```bash
-(kali㉿kali)-[~]
-$ aws sts get-caller-identity
-{
-  "UserId": "AIDA********LAB",
-  "Account": "123456789",
-  "Arn": "arn:aws:iam::123456789:user/cloud-attacker"
-}
-```
-## 📄 CloudTrail (Successful API Call)
-![IAM Role Enumeration](screenshots/caller-identity-log.png)
-```json
-{
-  "eventName": "GetCallerIdentity",
-  "eventSource": "sts.amazonaws.com",
-  "userName": "cloud-attacker",
-  "sourceIPAddress": "External IP",
-  "awsRegion": "us-east-1",
-  "eventTime": "2026-04-05T20:25:49Z"
-}
-```
-### 🔹 Analysis
-The attacker used GetCallerIdentity to confirm that the credentials were valid and to determine the AWS account context. This step is commonly performed immediately after gaining access to verify authentication and understand the scope of access.
+
 ## 🧬 MITRE ATT&CK Mapping
-- Technique	Description
-- Valid Accounts	Use of legitimate IAM credentials
-- Account Discovery	Enumerating IAM users
-- Cloud Service Discovery	Listing AWS resources
+| Technique | ID | Example |
+|----------|----|--------|
+| Account Discovery | T1087.004 | `ListUsers`, `GetCallerIdentity` |
+| Permission Groups Discovery | T1069.003 | `ListRoles` |
+| Cloud Service Discovery | T1526 | `aws s3 ls` |
+## 🛡️ Security Framework Mapping
+### 🔹 NIST SP 800-53
+| Control | Relevance |
+|--------|----------|
+| AC-6 (Least Privilege) | AccessDenied confirms restricted permissions |
+| AU-6 (Audit Review) | CloudTrail enables detection of API activity |
+### 🔹 CIS AWS Foundations Benchmark
+| Control | Observation |
+|--------|-------------|
+| 1.5 (MFA) | Not enforced → potential risk |
+| 3.x (Logging) | CloudTrail enabled for API monitoring |
 ## 🛡️ Mitigation & Defense
 - Enforce least privilege IAM policies
 - Monitor API activity using CloudTrail
