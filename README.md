@@ -1,5 +1,5 @@
 
-# ☁️ AWS Cloud Security Lab
+# ☁️ AWS Cloud Threat Detection Analysis
 ## 📊 Project Highlights
 
 - ☁️ AWS CloudTrail Log Analysis
