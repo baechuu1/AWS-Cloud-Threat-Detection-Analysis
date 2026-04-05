@@ -160,7 +160,7 @@ arn:aws:iam::123456789:user/cloud-attacker is not authorized to perform:
 s3:ListAllMyBuckets because no identity-based policy allows the
 s3:ListAllMyBuckets action
 ```
-❌ CloudTrail (AccessDenied)
+## ❌ CloudTrail (AccessDenied)
 ![IAM Role Enumeration](screenshots/list-bucket-log.png)
 ```json
 {
