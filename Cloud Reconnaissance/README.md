@@ -63,7 +63,7 @@ $ aws sts get-caller-identity
   "Arn": "arn:aws:iam::123456789:user/cloud-attacker"
 }
 ```
-## 📄 CloudTrail (Successful API Call)
+### 📄 CloudTrail (Successful API Call)
 ![IAM Role Enumeration](screenshots/caller-identity-log.png)
 ```json
 {
@@ -102,7 +102,7 @@ $ aws iam list-users
   ]
 }
 ```
-## 📄 CloudTrail (Successful API Call)
+### 📄 CloudTrail (Successful API Call)
 
 ![IAM Role Enumeration](screenshots/list-user-log.png)
 
@@ -136,7 +136,7 @@ $ aws iam list-roles
       "Arn": "arn:aws:iam::123456789:role/aws-service-role/resource-explorer-2.amazonaws.com/AWSServiceRoleForResourceExplorer",
     }
 ```
-## 📄 CloudTrail (Successful API Call)
+### 📄 CloudTrail (Successful API Call)
 ![IAM Role Enumeration](screenshots/list-role-log.png)
 ```json
 {
@@ -160,7 +160,7 @@ arn:aws:iam::123456789:user/cloud-attacker is not authorized to perform:
 s3:ListAllMyBuckets because no identity-based policy allows the
 s3:ListAllMyBuckets action
 ```
-## ❌ CloudTrail (AccessDenied)
+### ❌ CloudTrail (AccessDenied)
 ![IAM Role Enumeration](screenshots/list-bucket-log.png)
 ```json
 {
